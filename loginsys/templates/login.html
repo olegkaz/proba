@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block login %}
+    <div class="large-offset-3 large-6 columns">
+        <form method="post" action="/auth/login/">
+
+            {% csrf_token %}
+            <label for="username">Имя пользователя</label>
+            <input type="text" name="username" id="username"  placeholder="логин" value="{{ username }}" >
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password"  placeholder="пароль" required>
+
+            {% if login_error %}
+                <label class="error">{{ login_error }}</label>
+            {% endif %}
+
+            <button class="btn btn-success" type="submit" >Войти</button>
+
+        </form>
+    </div>
+{% endblock %}
+

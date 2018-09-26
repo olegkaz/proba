@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>General</title>
+    <link id="favicon" rel="shortcut icon" type="image/png" href="static/personal/img/favicon.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="static/personal/img/favicon.png"/>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'personal/css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'personal/css/glyphicon.css' %}" >
+
+</head>
+
+<body >
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+        <a href="/"> Мой блог </a>
+        <ul class="navbar-nav ml-auto">
+            {% if username %}
+                <li><a href="/auth/logout/"><span class="glyphicon glyphicon-log-out"></span> Выйти {{ username }}</a></li>
+            {% else %}
+                <li><a href="/auth/login/"><span class="glyphicon glyphicon-log-in"></span> Войти {{ username }}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+
+
+
+<div class="container">
+
+    <div class="row justify-content-left">
+         <div class="col-5">
+        {% block article %}{% endblock %}
+        {% block login %}{% endblock %}
+         </div>
+    </div>
+
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+           integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+           crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'personal/js/bootstrap.min.js' %}"></script>
+</div>
+
+</body>
+</html>

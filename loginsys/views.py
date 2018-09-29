@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.contrib import auth
 from django.template.context_processors import csrf
 
 
 # Create your views here.
 def login(request):
-    args = {'username': request.POST.get('username', ''), 'password': request.POST.get('password', '')}
-    args.update(csrf(request))
+
     if request.POST:
+        # this two variables for internal purpose only (only this template)
+        # that does not mean username of authenticated user
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
@@ -16,10 +17,11 @@ def login(request):
             auth.login(request, user)
             return redirect("/")
         else:
-            args['login_error'] = 'Пользователь не найден'
-            return render_to_response('login.html', args)
-    else:
-        return render_to_response('login.html', args)
+            return render(request, 'login.html', {'login_error': 'Пользователь не найден',
+                                                  "username": username,
+                                                  "password": password})
+    else:  # means GET request (form does not send)
+        return render(request, 'login.html')
 
 
 def logout(request):

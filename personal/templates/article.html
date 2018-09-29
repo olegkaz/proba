@@ -8,10 +8,10 @@
     <p>Комментарий:</p>
     <p>{{ comment.comments_text }}</p>
 {% endfor %}
-{% if username %}
+{% if request.user.is_authenticated %}
 <form  action="/articles/addcomment/{{ article.id }}/" method="post">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
 <input class="btn btn-danger mb-2" type="submit" value="Добавить комментарий" >
 {% endif %}
 </form>

@@ -1,4 +1,3 @@
-from django.shortcuts import render, render_to_response, redirect
 from django.template import Context
 from django.views.generic.list import ListView
 from django.views import View
@@ -14,33 +13,31 @@ from personal.models import Article, Comments
 from personal.forms import CommentForm
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect, render_to_response, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, Count,Avg,Aggregate,IntegerField, F
 import math
 
+
 def template_three(request):
-    return render_to_response('login.html')
+    return render(request, 'login.html')
 
 
 class articles(View):
     def get(self, request):
         articles = Article.objects.annotate(comments_count=Count('comments')).all()
-        return render_to_response('articles.html', {'articles': articles, 'username': auth.get_user(request).username})
+        return render(request, 'articles.html', {'articles': articles})
 
 
 def article(request, article_id=1):
     comment_form = CommentForm
-    args = {}
-    args.update(csrf(request))
-    args['article'] = Article.objects.get(id=article_id)
-    args['comments'] = Comments.objects.filter(comments_article_id=article_id)
-    args['form'] = comment_form
-    args['username'] = auth.get_user(request).username
-    return render_to_response('article.html', args)
+    article = Article.objects.get(id=article_id)
+    comments = Comments.objects.filter(comments_article_id=article_id)
+
+    return render(request, 'article.html', {'form': comment_form, "comments": comments, "article": article})
 
 
-def addlike (request, article_id):
+def addlike(request, article_id):
     try:
         article = Article.objects.get(id=article_id)
         article.article_likes += 1
